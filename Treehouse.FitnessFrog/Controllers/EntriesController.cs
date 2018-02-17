@@ -41,9 +41,19 @@ namespace Treehouse.FitnessFrog.Controllers
 
         public ActionResult Add()
         {
-            return View();
+            var entry = new Entry()
+            {
+                Date = DateTime.Today
+            };
+            return View(entry);
         }
 
+        //[ActionName("Add")] // may be used if the method name differs
+        [HttpPost]
+        public ActionResult Add(Entry entry)
+        {
+            return View();
+        }
         public ActionResult Edit(int? id)
         {
             if (id == null)
