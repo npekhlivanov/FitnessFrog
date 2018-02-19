@@ -93,6 +93,7 @@
     <Content Include="Global.asax" />
     <Content Include="img\check.png" />
     <Content Include="img\x.png" />
+    <Content Include="Scripts\bootstrap-datepicker.bg.min.js" />
     <Content Include="Scripts\bootstrap-datepicker.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
