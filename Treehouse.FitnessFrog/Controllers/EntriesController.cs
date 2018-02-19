@@ -45,6 +45,8 @@ namespace Treehouse.FitnessFrog.Controllers
             {
                 Date = DateTime.Today
             };
+
+            ViewBag.ActivitySelectListItems = new SelectList(Data.Data.Activities, "Id", "Name");
             return View(entry);
         }
 
@@ -52,6 +54,14 @@ namespace Treehouse.FitnessFrog.Controllers
         [HttpPost]
         public ActionResult Add(Entry entry)
         {
+            if (ModelState.IsValid)
+            {
+                _entriesRepository.AddEntry(entry);
+                return RedirectToAction("Index");
+            }
+
+            // DropDown list items do not automatically populate on a PostBack, so we need to fill them again
+            ViewBag.ActivitySelectListItems = new SelectList(Data.Data.Activities, "Id", "Name");
             return View();
         }
         public ActionResult Edit(int? id)
