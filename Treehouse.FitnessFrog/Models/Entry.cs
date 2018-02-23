@@ -58,6 +58,8 @@ namespace Treehouse.FitnessFrog.Models
         /// <summary>
         /// The date of the entry. Should not include a time portion.
         /// </summary>
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Date { get; set; }
 
         /// <summary>
@@ -74,6 +76,7 @@ namespace Treehouse.FitnessFrog.Models
         /// <summary>
         /// The duration for the entry (in minutes).
         /// </summary>
+        [Range(1, 24 * 60, ErrorMessage = "Duration must be greater than zero!")]
         public double Duration { get; set; }
 
         /// <summary>
@@ -89,6 +92,7 @@ namespace Treehouse.FitnessFrog.Models
         /// <summary>
         /// The notes for the entry.
         /// </summary>
+        [MaxLength(200, ErrorMessage = "The Notes field cannot be longer than 200 characters.")]
         public string Notes { get; set; }
     }
 }
