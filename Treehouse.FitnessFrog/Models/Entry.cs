@@ -59,7 +59,7 @@ namespace Treehouse.FitnessFrog.Models
         /// The date of the entry. Should not include a time portion.
         /// </summary>
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
+        //[DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Date { get; set; }
 
         /// <summary>
