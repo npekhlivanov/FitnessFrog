@@ -59,6 +59,7 @@ namespace Treehouse.FitnessFrog.Controllers
             if (ModelState.IsValid)
             {
                 _entriesRepository.AddEntry(entry);
+                TempData["Message"] = "The entry has been saved.";
                 return RedirectToAction("Index");
             }
 
@@ -93,6 +94,7 @@ namespace Treehouse.FitnessFrog.Controllers
             if (ModelState.IsValid)
             {
                 _entriesRepository.UpdateEntry(entry);
+                TempData["Message"] = "The entry has been updated.";
                 return RedirectToAction("Index");
             }
 
@@ -107,8 +109,23 @@ namespace Treehouse.FitnessFrog.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            return View();
+            var entry = _entriesRepository.GetEntry(id.Value);
+            if (entry == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(entry);
         }
+
+        [HttpPost]
+        public ActionResult Delete (int id)
+        {
+            _entriesRepository.DeleteEntry(id);
+            TempData["Message"] = "The entry has been deleted.";
+            return RedirectToAction("Index");
+        }
+
         private void ValidateEntry(Entry entry)
         {
             if (ModelState.IsValidField("Duration") && entry.Duration <= 0)
