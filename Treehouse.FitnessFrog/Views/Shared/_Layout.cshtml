@@ -57,18 +57,44 @@
         @RenderBody()
         <footer>
             @Html.Partial("_Logo", new ViewDataDictionary { { "element-id", "footer_logo" } })
-            <p>&copy; @DateTime.Now.Year @applicationName, All Rights Reserved.</p>
-        </footer>
+            <p>&copy; @DateTime.Now.Year @applicationName, @System.Globalization.CultureInfo.CurrentCulture (@System.Globalization.CultureInfo.CurrentUICulture)</p>
+</footer>
     </div>
 
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
-    <script src="~/Scripts/jquery.validate.min.js"></script>
+    @*<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>*@
+    @*<script type="text/javascript"
+                src="http://jqueryui.com/ui/i18n/jquery.ui.datepicker-fr.js">
+        </script>*@
+    <script src="~/Scripts/jquery.validate.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-    @*<script src="~/Scripts/globalize.js"></script>
+
+    <script src="~/Scripts/cldr.js"></script>
+    <script src="~/Scripts/cldr/event.js"></script>
+    <script src="~/Scripts/cldr/supplemental.js"></script>
+    <script src="~/Scripts/globalize.js"></script>
+    @*these are for globalize v1.3*@
     <script src="~/Scripts/globalize/number.js"></script>
-    <script src="~/Scripts/globalize/date.js"></script>*@
-    @*<script src="~/Scripts/globalize.culture.bg-BG.js"></script>
-     <script src="~/Scripts/jquery.validate.globalize.js"></script>*@
+    <script src="~/Scripts/globalize/date.js"></script>
+    @*<script src="~/Scripts/jquery.validate.globalize.js"></script>*@
+
+    @* these are from globalize v0.x
+        <script src="~/Scripts/globalize/globalize.cultures.js"></script>
+        <script src="~/Scripts/globalize/globalize.culture.bg-BG.js"></script>*@
+
+    @*
+        https://stackoverflow.com/questions/21817497/asp-net-mvc-4-client-side-validation-fails-on-dates-containing-dots
+            no validation occurs for dates if this script is enabled
+        <script type="text/javascript">
+            $(function () {
+                $.validator.methods.date = function (value, element) {
+                      return this.optional(element) || Globalize.parseDate(value, "dd.MM.yyyy");
+                }
+            });
+        </script>
+    *@
+
     <script src="~/Scripts/jquery.validate.bootstrap.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="~/Scripts/bootstrap-datepicker.min.js"></script>
@@ -86,5 +112,28 @@
                 Globalize.culture('bg-BG');
             }
         </script>*@
+    @*<script>
+        $(document).ready(function () {
+            Globalize.load({
+                "supplemental": {
+                    "parentLocales": {
+                        "parentLocale": {
+                            "en": "en-US"
+                        }
+                    },
+                    "likelySubtags": {
+                        "de": "de",
+                        "en": "en",
+                        "fr": "fr"
+                    }
+                }
+            });
+            Globalize.locale("en-US");
+            $.validator.methods.date = function (value, element) {
+                return this.optional(element) || Globalize.parseDate(value, { date: "short" }) !== null;
+            };
+            //console.log(Globalize.locale().name); Globalize.locale(new Cldr("en")); {, skeleton: "dMy" }
+        });
+    </script>*@
 </body>
 </html>
