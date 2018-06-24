@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Collections.Generic;
 using System.Data.Entity;
 using Treehouse.FitnessFrog.Shared.Models;
+using Treehouse.FitnessFrog.Shared.Security;
 
 namespace Treehouse.FitnessFrog.Shared.Data
 {
@@ -39,18 +42,30 @@ namespace Treehouse.FitnessFrog.Shared.Data
 
             context.Activities.AddRange(activities);
 
+            // Create the users
+            var user1 = new User { Email = "nicko@omegasoft.bg", UserName = "nicko@omegasoft.bg", DisplayName = "Nicko P" };
+            var user2 = new User { Email = "n.pekhlivanov@gmail.com", UserName = "n.pekhlivanov@gmail.com", DisplayName = "N. Pekhlivanov" };
+            using (var userStore = new UserStore<User>(context))
+            {
+                using (var userManager = new ApplicationUserManager(userStore))
+                {
+                    var result1 = userManager.Create(user1, "123456");
+                    var result2 = userManager.Create(user2, "123456");
+                }
+            }
+
             var entries = new List<Entry>()
             {
-                new Entry(2017, 7, 8, activityBiking, 10.0m),
-                new Entry(2017, 7, 9, activityBiking, 12.2m),
-                new Entry(2017, 7, 10, activityHiking, 123.0m),
-                new Entry(2017, 7, 12, activityBiking, 10.0m),
-                new Entry(2017, 7, 13, activityWalking, 32.2m),
-                new Entry(2017, 7, 13, activityBiking, 13.3m),
-                new Entry(2017, 7, 14, activityBiking, 10.0m),
-                new Entry(2017, 7, 15, activityWalking, 28.6m),
-                new Entry(2017, 7, 16, activityBiking, 12.7m),
-                new Entry(2017, 7, 16, activityPokemonGo, 23.4m)
+                new Entry(user1, 2017, 7, 8, activityBiking, 10.0m),
+                new Entry(user1, 2017, 7, 9, activityBiking, 12.2m),
+                new Entry(user1, 2017, 7, 10, activityHiking, 123.0m),
+                new Entry(user1, 2017, 7, 12, activityBiking, 10.0m),
+                new Entry(user1, 2017, 7, 13, activityWalking, 32.2m),
+                new Entry(user1, 2017, 7, 13, activityBiking, 13.3m),
+                new Entry(user2, 2017, 7, 14, activityBiking, 10.0m),
+                new Entry(user2, 2017, 7, 15, activityWalking, 28.6m),
+                new Entry(user2, 2017, 7, 16, activityBiking, 12.7m),
+                new Entry(user2, 2017, 7, 16, activityPokemonGo, 23.4m)
             };
 
             context.Entries.AddRange(entries);
