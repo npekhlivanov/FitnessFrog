@@ -42,7 +42,7 @@
         @RenderBody()
         <footer>
             @Html.Partial("_Logo", new ViewDataDictionary { { "element-id", "footer_logo" } })
-            <p>&copy; @DateTime.Now.Year @applicationName, All Rights Reserved.</p>
+            <p>&copy; @DateTime.Now.Year @applicationName, All Rights Reserved. ID: @Session.SessionID</p>
         </footer>
     </div>
 

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using AspNetCoreTest.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace AspNetCoreTest.Controllers
 {
@@ -12,6 +13,10 @@ namespace AspNetCoreTest.Controllers
     {
         public IActionResult Index()
         {
+            if (string.IsNullOrEmpty(HttpContext.Session.GetString("SessionKeyTime")))
+            {
+                HttpContext.Session.SetString("SessionKeyTime", DateTime.Now.ToString());
+            }
             return View();
         }
 

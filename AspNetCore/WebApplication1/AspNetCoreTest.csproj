@@ -6,7 +6,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.0.3" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.3" />
+    <PackageReference Include="Nuget.CommandLine" Version="4.7.0" />
+    <PackageReference Include="Telerik.UI.for.AspNet.Core" Version="2018.2.620" />
   </ItemGroup>
 
   <ItemGroup>
