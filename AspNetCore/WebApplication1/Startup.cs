@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.CookiePolicy;
 using Newtonsoft.Json.Serialization;
+using System;
 using System.Diagnostics;
 
-namespace AspNetCoreTest
+namespace MovieStore
 {
     public class Startup
     {
@@ -34,6 +31,7 @@ namespace AspNetCoreTest
                 //options.CheckConsentNeeded = context => true; ?2.1
                 options.MinimumSameSitePolicy = SameSiteMode.None;
                 options.OnDeleteCookie = onDelete;
+                options.OnAppendCookie = (cookieContext) => Debug.WriteLine(cookieContext.CookieName + " adedd");
                 //options.HttpOnly = Microsoft.AspNetCore.CookiePolicy.HttpOnlyPolicy.Always; // whether cookies must be http only
             });
 

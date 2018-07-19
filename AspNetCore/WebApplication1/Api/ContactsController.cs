@@ -1,12 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using MovieStore.Models;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using AspNetCoreTest.Models;
 
-namespace AspNetCoreTest.Api
+namespace MovieStore.Api
 {
     [Produces("application/json")]
     [Route("api/[controller]")]

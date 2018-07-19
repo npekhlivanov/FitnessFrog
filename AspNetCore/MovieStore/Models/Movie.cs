@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AspNetCoreTest.Models
+namespace MovieStore.Models
 {
     public class Movie
     {
@@ -19,6 +19,5 @@ namespace AspNetCoreTest.Models
         [DisplayFormat(DataFormatString = "{0:N1}", ApplyFormatInEditMode = true)]
         [Range(1, 10, ErrorMessage = "The rating should be a number between 1 and 10.")]
         public int Rating { get; set; }
-
     }
 }

@@ -4,10 +4,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using AspNetCoreTest.Models;
+using MovieStore.Models;
 using Microsoft.AspNetCore.Http;
 
-namespace AspNetCoreTest.Controllers
+namespace MovieStore.Controllers
 {
     public class HomeController : Controller
     {

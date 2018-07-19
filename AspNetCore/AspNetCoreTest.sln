@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27703.2018
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspNetCoreTest", "WebApplication1\AspNetCoreTest.csproj", "{6DD0027B-5EB1-4E24-8F1E-3DEC9A1A5F0D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieStore", "MovieStore\MovieStore.csproj", "{35089F91-E282-4AAB-873B-21AC9A64F661}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{6DD0027B-5EB1-4E24-8F1E-3DEC9A1A5F0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6DD0027B-5EB1-4E24-8F1E-3DEC9A1A5F0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6DD0027B-5EB1-4E24-8F1E-3DEC9A1A5F0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35089F91-E282-4AAB-873B-21AC9A64F661}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35089F91-E282-4AAB-873B-21AC9A64F661}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35089F91-E282-4AAB-873B-21AC9A64F661}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35089F91-E282-4AAB-873B-21AC9A64F661}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
