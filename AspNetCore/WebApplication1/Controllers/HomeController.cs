@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MovieStore.Models;
-using Microsoft.AspNetCore.Http;
+using System;
+using System.Diagnostics;
 
 namespace MovieStore.Controllers
 {

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using MovieStore.Data;
+using Microsoft.AspNetCore.Mvc;
+using MovieStore.ViewModels;
 
 namespace MovieStore.Controllers
 {
@@ -6,7 +8,9 @@ namespace MovieStore.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            var contacts = ContactsRepository.GetContacts();
+            var viewModel = new ProductIndexViewModel { Contacts = contacts, Count = contacts.Count };
+            return View(viewModel);
         }
     }
 }

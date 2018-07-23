@@ -1,7 +1,56 @@
-﻿
+﻿@*@model MovieStore.ViewModels.ProductIndexViewModel*@
 @{
-    ViewData["Title"] = "Products";
+	ViewData["Title"] = "Products";
 }
 
 <h2>@ViewData["Title"]</h2>
+
+@*<ul>
+	@foreach (var item in Model.Contacts)
+	{
+		<li>@item.Name</li>
+	}
+</ul>*@
+
+@(Html.Kendo().Grid<MovieStore.Models.Contact>
+    ()
+    .Name("grid1")
+    .Columns(col =>
+    {
+        col.Bound(c => c.Name);
+        col.Bound(c => c.Email);
+        col.Bound(c => c.Phone);
+    })
+    .Scrollable()
+    .Groupable()
+    .Sortable()
+    .Pageable(pageable => pageable
+            .Refresh(true)
+            .PageSizes(true)
+            .ButtonCount(5))
+    .Filterable()
+    .DataSource(dataSource =>
+        dataSource
+        .WebApi()
+        .Model(model =>
+        {
+            model.Id(p => p.Id);
+        })
+        .Events(events => events.Error("error_handler"))
+        .Read(read => read.Action("Get", "Contacts"))
+    //.Create(create => create.Action("Post", "Product"))
+    //.Update(update => update.Action("Put", "Product", new { id = "{0}" }))
+    //.Destroy(destroy => destroy.Action("DELETE", "Product", new { id = "{0}" }))
+    )
+)
+
+<script>
+function error_handler(e) {
+    var errors = $.parseJSON(e.xhr.responseText);
+
+    if (errors) {
+        alert("Errors:\n" + errors.join("\n"));
+    }
+}
+</script>
 
