@@ -1,10 +1,10 @@
-﻿using MovieStore.Data;
+﻿using AspNetCoreDataSource;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using Kendo.Mvc.UI;
 using Kendo.Mvc.Extensions;
 
-namespace MovieStore.Api
+namespace AspNetCoreTest.Api
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
@@ -29,11 +29,31 @@ namespace MovieStore.Api
         }
 
         [HttpGet]
-        public DataSourceResult Get([DataSourceRequest]DataSourceRequest request)
+        public DataSourceResult Get([DataSourceRequest] DataSourceRequest request)
+        {
+            var contacts = ContactsRepository.GetContacts();
+            //var result = contacts.ToDataSourceResult(request);
+            var result = new DataSourceResult()
+            {
+                Data = contacts,
+                Total = contacts.Count
+            };
+
+            return result;
+        }
+
+        //[HttpPost]
+        public ActionResult GetJson([DataSourceRequest] DataSourceRequest request)
         {
             var contacts = ContactsRepository.GetContacts();
             var result = contacts.ToDataSourceResult(request);
-            return result;
+            //var result = new DataSourceResult()
+            //{
+            //    Data = contacts,
+            //    Total = contacts.Count
+            //};
+
+            return Json(result);
         }
     }
 }

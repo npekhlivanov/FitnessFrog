@@ -15,3 +15,34 @@
     <strong>Support:</strong> <a href="mailto:Support@example.com">Support@example.com</a><br />
     <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
 </address>
+
+<div>
+    @(Html.Kendo().Grid<AspNetCoreDataSource.Models.Contact>
+            ()
+            .Name("Grid")
+            .Columns(col =>
+            {
+                col.Bound(c => c.Name);
+                col.Bound(c => c.Email);
+                col.Bound(c => c.Phone);
+            })
+            .Scrollable()
+            .Groupable()
+            .Sortable()
+            .Pageable(pageable => pageable
+                    .Refresh(true)
+                    .PageSizes(true)
+                    .ButtonCount(5))
+            .Filterable()
+            .DataSource(dataSource =>
+                dataSource
+                .WebApi() // expects DataSourceResult result, makes a GET-request
+                .Model(model =>
+                {
+                    model.Id(c => c.Id);
+                })
+                //.Events(events => events.Error("error_handler"))
+                .Read(read => read.Action("Get", "Contacts"))
+            )
+    )
+</div>

@@ -1,10 +1,10 @@
-﻿using MovieStore.Models;
+﻿using AspNetCoreDataSource.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MovieStore.ViewModels
+namespace AspNetCoreTest.ViewModels
 {
     public class ProductIndexViewModel
     {

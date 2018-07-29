@@ -1,56 +1,58 @@
-﻿@*@model MovieStore.ViewModels.ProductIndexViewModel*@
+﻿@*@model AspNetCoreTest.ViewModels.ProductIndexViewModel*@
 @{
-	ViewData["Title"] = "Products";
+    ViewData["Title"] = "Products";
 }
 
 <h2>@ViewData["Title"]</h2>
 
 @*<ul>
-	@foreach (var item in Model.Contacts)
-	{
-		<li>@item.Name</li>
-	}
-</ul>*@
-
-@(Html.Kendo().Grid<MovieStore.Models.Contact>
-    ()
-    .Name("grid1")
-    .Columns(col =>
-    {
-        col.Bound(c => c.Name);
-        col.Bound(c => c.Email);
-        col.Bound(c => c.Phone);
-    })
-    .Scrollable()
-    .Groupable()
-    .Sortable()
-    .Pageable(pageable => pageable
-            .Refresh(true)
-            .PageSizes(true)
-            .ButtonCount(5))
-    .Filterable()
-    .DataSource(dataSource =>
-        dataSource
-        .WebApi()
-        .Model(model =>
+        @foreach (var item in Model.Contacts)
         {
-            model.Id(p => p.Id);
+            <li>@item.Name</li>
+        }
+    </ul>*@
+
+@(Html.Kendo().Grid<Contact>
+        ()
+        .Name("grid1")
+        .Columns(col =>
+        {
+            col.Bound(c => c.Name);
+            col.Bound(c => c.Email);
+            col.Bound(c => c.Phone);
         })
-        .Events(events => events.Error("error_handler"))
-        .Read(read => read.Action("Get", "Contacts"))
-    //.Create(create => create.Action("Post", "Product"))
-    //.Update(update => update.Action("Put", "Product", new { id = "{0}" }))
-    //.Destroy(destroy => destroy.Action("DELETE", "Product", new { id = "{0}" }))
-    )
+        //.Scrollable()
+        .Groupable()
+        .Sortable()
+        .Pageable(pageable => pageable
+                .Refresh(true)
+                .PageSizes(true)
+                .ButtonCount(5))
+        //.Filterable()
+        .DataSource(dataSource =>
+            dataSource
+            .Ajax() // expects Json result, makes a POST-request
+            .Model(m => m.Id(c => c.Name))
+            //.WebApi() // expects DataSourceResult result ?
+            //.Model(model =>
+            //{
+            //    model.Id(c => c.Id);
+            //})
+            //.Events(events => events.Error("error_handler"))
+            .Read(read => read.Action("GetJson", "Contacts"))
+            .Create(create => create.Action("Post", "Contacts"))
+            .Update(update => update.Action("Put", "Contacts", new { id = "{0}" }))
+            .Destroy(destroy => destroy.Action("DELETE", "Contacts", new { id = "{0}" }))
+        )
 )
 
 <script>
-function error_handler(e) {
-    var errors = $.parseJSON(e.xhr.responseText);
+    function error_handler(e) {
+        var errors = $.parseJSON(e.xhr.responseText);
 
-    if (errors) {
-        alert("Errors:\n" + errors.join("\n"));
+        if (errors) {
+            alert("Errors:\n" + errors.join("\n"));
+        }
     }
-}
 </script>
 

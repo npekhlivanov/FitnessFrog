@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MovieStore.Models;
+using AspNetCoreTest.Models;
 using System;
 using System.Diagnostics;
 
-namespace MovieStore.Controllers
+namespace AspNetCoreTest.Controllers
 {
     public class HomeController : Controller
     {

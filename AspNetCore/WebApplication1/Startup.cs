@@ -8,7 +8,7 @@ using Newtonsoft.Json.Serialization;
 using System;
 using System.Diagnostics;
 
-namespace MovieStore
+namespace AspNetCoreTest
 {
     public class Startup
     {
@@ -44,23 +44,24 @@ namespace MovieStore
                 options.Cookie.HttpOnly = true; // not accessible by client-side script
             });
 
-            services.AddMvc()
+            services
+                .AddMvc()
                 //.SetCompatibilityVersion(CompatibilityVersion.Version_2_1) 
-                .AddJsonOptions(options =>
-                {
-                    var resolver = options.SerializerSettings.ContractResolver;
-                    if (resolver != null)
-                    {
-                        //        var res = resolver as DefaultContractResolver;
-                        // If we want to preserve the casing of field names in JSON:
-                        //        res.NamingStrategy = null;
-                        // default = CamelCaseNamingStrategy
-                    }
-                    else
-                    {
-                        options.SerializerSettings.ContractResolver = new DefaultContractResolver();
-                    }
-                });
+                .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+                //{
+                //    var resolver = options.SerializerSettings.ContractResolver;
+                //    if (resolver != null)
+                //    {
+                //        //        var res = resolver as DefaultContractResolver;
+                //        // If we want to preserve the casing of field names in JSON:
+                //        //        res.NamingStrategy = null;
+                //        // default = CamelCaseNamingStrategy
+                //    }
+                //    else
+                //    {
+                //        options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+                //    }
+                //});
             services.AddKendo();
         }
 

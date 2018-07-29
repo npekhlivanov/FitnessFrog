@@ -1,4 +1,4 @@
-﻿namespace MovieStore.Models
+﻿namespace AspNetCoreDataSource.Models
 {
     public class Contact
     {

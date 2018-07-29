@@ -1,10 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using AspNetCoreDataSource;
+using AspNetCoreDataSource.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using MovieStore.Models;
+using System.Collections.Generic;
 
 namespace MovieStore.Pages
 {

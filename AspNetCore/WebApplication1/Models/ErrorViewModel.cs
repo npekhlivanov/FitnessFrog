@@ -1,6 +1,6 @@
 using System;
 
-namespace MovieStore.Models
+namespace AspNetCoreTest.Models
 {
     public class ErrorViewModel
     {

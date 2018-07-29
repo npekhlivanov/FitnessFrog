@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - WebApplication1</title>
 
-    <link href="https://kendo.cdn.telerik.com/2018.2.620/styles/kendo.common-material.min.css" rel="stylesheet" />
-    <link href="https://kendo.cdn.telerik.com/2018.2.620/styles/kendo.mobile.all.min.css" rel="stylesheet" />
+    <link href="https://kendo.cdn.telerik.com/2018.2.620/styles/kendo.common-material.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://kendo.cdn.telerik.com/2018.2.620/styles/kendo.mobile.all.min.css" rel="stylesheet" type="text/css" />
     <link href="https://kendo.cdn.telerik.com/2018.2.620/styles/kendo.material.min.css" rel="stylesheet" type="text/css" />
 
     <environment include="Development">
@@ -25,6 +25,7 @@
     @*scripts must be in the head section in order to use Kendo!*@
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
+        @*<script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>*@
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
 
         <script src="https://kendo.cdn.telerik.com/2018.2.620/js/jszip.min.js"></script>
@@ -85,6 +86,7 @@
         </footer>
     </div>
 
+    @*@Html.Kendo().DeferredScripts()*@
     @RenderSection("Scripts", required: false)
 </body>
 </html>

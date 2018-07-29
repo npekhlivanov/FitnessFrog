@@ -3,7 +3,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 
-namespace MovieStore
+namespace AspNetCoreTest
 {
     public class Program
     {
