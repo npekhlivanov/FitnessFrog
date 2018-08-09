@@ -15,5 +15,10 @@ namespace SignalRChat
         {
             await Clients.Caller.SendAsync("ReceiveNotification", string.Format("notification for user {0}: {1}", user, DateTime.Now));
         }
+
+        public async Task ProgressNotification(string user, int percent)
+        {
+            await Clients.User(user).SendCoreAsync("ProgressNotification", new object[] { percent + 10 });
+        }
     }
 }

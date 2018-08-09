@@ -1,5 +1,6 @@
 ﻿@page
 @model IndexModel
+@using System.Web
 @{
     ViewData["Title"] = "Home page";
 }
@@ -31,8 +32,31 @@
 <div class="row" id="myRow">
     Test row
 </div>
-
 <input type="button" id="getButton" value="Get Notification" />
+<hr/>
+<div>
+    <input type="button" id="jobButton" value="Do Job" />
+</div>
+<div class="progress">
+    <div class="progress-bar progress-bar-success progress-bar-striped" id="myProgress" style="width:0%"></div>
+</div>
+
+<script>
+    document.getElementById("jobButton").addEventListener("click", function () {
+        const user = document.getElementById("userInput").value;
+        $.ajax({
+            url: '@Url.Action("DoJob", "Jobs")',
+            data: { 'user': user },
+            error: function (xhr, ajaxOptions, thrownError) {
+                //some errror, some show err msg to user and log the error  
+                alert(xhr.responseText);
+            }
+        });
+
+        event.preventDefault();
+    });
+</script>
+
 <script src="~/lib/signalr/signalr.js"></script>
 <script src="~/js/chat.js"></script>
 @*<script src="~/js/es5-chat.js"></script>*@
