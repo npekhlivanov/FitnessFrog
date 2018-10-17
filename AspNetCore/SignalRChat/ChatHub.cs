@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 namespace SignalRChat
 {
+    //[Authorize] add this attribute to require authorization to access the hub, using Identity; then use Context.User.Identity.Name in the methods instead of a "user" parameter
+    // Alternatively, use [Authorize(AuthenticationSchemes=JwtBearerDefaults.AuthenticationScheme)] to require a valid JWT when connecting to the hub
     public class ChatHub : Hub
     {
         public async Task SendMessage(string user, string message)
