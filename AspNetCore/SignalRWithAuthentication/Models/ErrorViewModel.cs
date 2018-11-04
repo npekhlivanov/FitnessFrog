@@ -1,6 +1,6 @@
 using System;
 
-namespace SignalRWithAuthentication.Models
+namespace SignalRWithAuthentication.Data
 {
     public class ErrorViewModel
     {

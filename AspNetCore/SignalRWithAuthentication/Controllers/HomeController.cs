@@ -4,9 +4,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using SignalRWithAuthentication.Models;
+using SignalRWithAuthentication.Data;
 
-namespace SignalRWithAuthentication.Controllers
+namespace SignalRWithAuthentication.Api
 {
     public class HomeController : Controller
     {

@@ -1,18 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SignalRWithAuthentication.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using SignalRWithAuthentication.Data;
 using SignalRWithAuthentication.Hubs;
+using SignalRWithAuthentication.Data;
+using System;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace SignalRWithAuthentication
 {
@@ -38,8 +40,87 @@ namespace SignalRWithAuthentication
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
+            services.AddDefaultIdentity<ApplicationUser>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            #region AspNetCoreIdentityOptions
+            // Configure ASP.NET Core Identity options
+            services.Configure<IdentityOptions>(options =>
+            {
+                // Default SignIn settings.
+                //options.SignIn.RequireConfirmedEmail = true; // default is false
+                options.SignIn.RequireConfirmedPhoneNumber = false;
+                // Default Lockout settings, default values are 5, 5, true
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.AllowedForNewUsers = true;
+                // Default Password settings.
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequiredLength = 6;
+                options.Password.RequiredUniqueChars = 1;
+                // Default User settings.
+                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                options.User.RequireUniqueEmail = true;
+            });
+
+            //  ConfigureApplicationCookie must be called after calling AddIdentity or AddDefaultIdentity
+            //services.ConfigureApplicationCookie(options =>
+            //{
+            //    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+            //    //options.Cookie.Name = "YourAppCookieName";
+            //    options.Cookie.HttpOnly = true;
+            //    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+            //    options.LoginPath = "/Identity/Account/Login";
+            //    // ReturnUrlParameter requires 
+            //    //using Microsoft.AspNetCore.Authentication.Cookies;
+            //    options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
+            //    options.SlidingExpiration = true;
+            //});
+            
+            #endregion
+            
+            // Configure authorization via JWT token in the query string 
+            var key = new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(Configuration["JwtKey"]));
+            services.AddAuthentication()
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        LifetimeValidator = (before, expires, token, parameters) => expires > DateTime.UtcNow,
+                        ValidateAudience = false,
+                        ValidateIssuer = false,
+                        ValidateActor = false,
+                        ValidateLifetime = true,
+                        IssuerSigningKey = key,
+                        NameClaimType = ClaimTypes.NameIdentifier
+                    };
+
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            var accessToken = context.Request.Query["access_token"];
+                            if (!string.IsNullOrEmpty(accessToken))
+                            {
+                                context.Token = accessToken;
+                            }
+
+                            return Task.CompletedTask;
+                        }
+                    };
+                });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(JwtBearerDefaults.AuthenticationScheme, policy =>
+                {
+                    policy.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme);
+                    policy.RequireClaim(ClaimTypes.NameIdentifier);
+                });
+            });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 

@@ -30,46 +30,6 @@ namespace SignalRChat
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            // configure authorization via JWT token in the query string 
-            //var key = new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(Configuration["JwtKey"]));
-            //services.AddAuthentication()
-            //    .AddJwtBearer(options =>
-            //    {
-            //        options.TokenValidationParameters = new TokenValidationParameters
-            //        {
-            //            LifetimeValidator = (before, expires, token, parameters) => 
-            //                expires > DateTime.UtcNow,
-            //                ValidateAudience = false,
-            //                ValidateIssuer = false,
-            //                ValidateActor = false,
-            //                ValidateLifetime = true,
-            //                IssuerSigningKey = key,
-            //                NameClaimType = ClaimTypes.NameIdentifier
-            //        };
-
-            //        options.Events = new JwtBearerEvents
-            //        {
-            //            OnMessageReceived = context => 
-            //            {
-            //                var accessToken = context.Request.Query["access_token"];
-            //                if (!string.IsNullOrEmpty(accessToken))
-            //                {
-            //                    context.Token = accessToken;
-            //                }
-
-            //                return Task.CompletedTask;
-            //            }
-            //        };
-            //    });
-
-            //services.AddAuthorization(options =>
-            //{
-            //    options.AddPolicy(JwtBearerDefaults.AuthenticationScheme, policy =>
-            //    {
-            //        policy.AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme);
-            //        policy.RequireClaim(ClaimTypes.NameIdentifier);
-            //    });
-            //});
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 

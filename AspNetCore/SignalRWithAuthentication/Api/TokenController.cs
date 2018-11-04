@@ -1,18 +1,15 @@
-﻿using System;
-using System.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using SignalRChat.Models;
+using SignalRWithAuthentication.Data;
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
-// see https://www.codemag.com/Article/1807061/Build-Real-time-Applications-with-ASP.NET-Core-SignalR
-
-namespace SignalRChat.Controllers
+namespace SignalRWithAuthentication.Api
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -25,13 +22,6 @@ namespace SignalRChat.Controllers
         {
             this.signInManager = signInManager;
             this.config = config;
-        }
-
-        [HttpGet("api/token")]
-        [Authorize]
-        public IActionResult GetToken()
-        {
-            return Ok(GenerateToken(User.Identity.Name));
         }
 
         private string GenerateToken(string userId)
@@ -47,8 +37,16 @@ namespace SignalRChat.Controllers
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
+        [HttpGet("/api/token")]
+        //[HttpGet("get")]
+        [Authorize]
+        public IActionResult GetToken()
+        {
+            return Ok(GenerateToken(User.Identity.Name));
+        }
+
         // another endpoint for non-Web clients to exchange a user’s valid username and password for a token
-        [HttpPost("api/token")]
+        [HttpPost("/api/token")]
         public async Task<IActionResult> GetTokenForCredentialsAsync([FromBody] LoginRequest login)
         {
             var result = await signInManager.PasswordSignInAsync(login.Username, login.Password, false, true);
