@@ -11,7 +11,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using SignalRWithAuthentication.Data;
 using SignalRWithAuthentication.Hubs;
-using SignalRWithAuthentication.Data;
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -79,9 +78,9 @@ namespace SignalRWithAuthentication
             //    options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
             //    options.SlidingExpiration = true;
             //});
-            
+
             #endregion
-            
+
             // Configure authorization via JWT token in the query string 
             var key = new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(Configuration["JwtKey"]));
             services.AddAuthentication()
@@ -130,6 +129,8 @@ namespace SignalRWithAuthentication
             // For Library, enter @aspnet/signalr@1, and select the latest version that isn't preview
             // Select Choose specific files, and select signalr.js and signalr.min.js, set Target Location to wwwroot/lib/signalr/
             // https://docs.microsoft.com/en-us/aspnet/core/tutorials/signalr?view=aspnetcore-2.1&tabs=visual-studio
+
+            services.AddSingleton(typeof(PresenceTracker));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
