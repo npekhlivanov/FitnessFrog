@@ -50,7 +50,12 @@ namespace SignalRWithAuthentication
         {
             lock (_onlineUsers)
             {
-                return Task.FromResult(_onlineUsers.Keys.ToArray());
+                var result = new List<string>();
+                foreach (var item in _onlineUsers)
+                {
+                    result.Add($"{item.Key} ({item.Value})");
+                }
+                return Task.FromResult(result.ToArray());//_onlineUsers.Keys.ToArray()
             }
         }
     }

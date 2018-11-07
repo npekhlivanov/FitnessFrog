@@ -37,6 +37,10 @@ namespace SignalRWithAuthentication.Api
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
+        /// <summary>
+        /// An action to exchange an identity cookie for a token
+        /// </summary>
+        /// <returns>A JW Token</returns>
         [HttpGet("/api/token")]
         //[HttpGet("get")]
         [Authorize]
@@ -45,7 +49,11 @@ namespace SignalRWithAuthentication.Api
             return Ok(GenerateToken(User.Identity.Name));
         }
 
-        // another endpoint for non-Web clients to exchange a user’s valid username and password for a token
+        /// <summary>
+        /// Another endpoint for non-Web clients to exchange a user’s valid username and password for a token
+        /// </summary>
+        /// <param name="login">User name and password</param>
+        /// <returns>A JW Token</returns>
         [HttpPost("/api/token")]
         public async Task<IActionResult> GetTokenForCredentialsAsync([FromBody] LoginRequest login)
         {

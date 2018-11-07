@@ -82,6 +82,7 @@ namespace SignalRWithAuthentication
             #endregion
 
             // Configure authorization via JWT token in the query string 
+            // See https://www.codemag.com/Article/1807061/Build-Real-time-Applications-with-ASP.NET-Core-SignalR
             var key = new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(Configuration["JwtKey"]));
             services.AddAuthentication()
                 .AddJwtBearer(options =>
@@ -129,6 +130,10 @@ namespace SignalRWithAuthentication
             // For Library, enter @aspnet/signalr@1, and select the latest version that isn't preview
             // Select Choose specific files, and select signalr.js and signalr.min.js, set Target Location to wwwroot/lib/signalr/
             // https://docs.microsoft.com/en-us/aspnet/core/tutorials/signalr?view=aspnetcore-2.1&tabs=visual-studio
+            // To enable Azure SignalR Service in your application, add a call to .AddAzureSignalR()
+            // Beforehand, create an Azure SignalR Service instance in the Azure portal, add Microsoft.Azure.SignalR NuGet package and
+            // specify the connection string in an application setting named Azure:SignalR:ConnectionString
+            // The ASP.NET Core JWT authorization added earlier must be disabled in order for SignalR Service to integrate with this application (cookie authorization is fine)
 
             services.AddSingleton(typeof(PresenceTracker));
         }
@@ -165,6 +170,11 @@ namespace SignalRWithAuthentication
             {
                 builder.MapHub<ChatHub>("/chat");
             });
+            // If using Azure SignalR, use the code below instead of the one above
+            //app.UseAzureSignalR(builder =>
+            //{
+            //    builder.MapHub<Chat>("/chat");
+            //});
         }
     }
 }
