@@ -40,6 +40,11 @@
             document.createTextNode(` ${sender} : ${messageText} `));
         messages.appendChild(newMessage);
     });
+
+    //connection.on('sync', (message) => {
+    //    console.log('received sync - ' + message);
+    //});
+
     connection.start()
         .then(() => console.log('connected!'))
         .catch(console.error);

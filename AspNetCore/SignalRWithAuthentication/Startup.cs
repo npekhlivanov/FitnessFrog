@@ -124,6 +124,12 @@ namespace SignalRWithAuthentication
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            // The reason we have to add support for CORS, is because the SignalR hub call from client uses OPTIONS method
+            // see https://dotnetcorecentral.com/blog/real-time-web-application-in-asp-net-core-signalr/
+            //services.AddCors(options => {
+            //    options.AddPolicy("CorsPolicy", b => { b.AllowAnyMethod(); });
+            //});
+
             // Add SignalR services to the service collection
             services.AddSignalR();
             // To add SignalR client library, right-click the project, and select Add > Client-Side Library, then select unpkg for Provider .
@@ -165,6 +171,9 @@ namespace SignalRWithAuthentication
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
+            // Use the CORS policy defined previusly
+            //app.UseCors("CorsPolicy");
+
             // Add SignalR to the request execution pipeline passing a callback to configure the hub routes
             app.UseSignalR(builder =>
             {
@@ -175,6 +184,9 @@ namespace SignalRWithAuthentication
             //{
             //    builder.MapHub<Chat>("/chat");
             //});
+
+            // The code below activates the relay service
+            //app.ApplicationServices.GetService<MessageRelay>();
         }
     }
 }

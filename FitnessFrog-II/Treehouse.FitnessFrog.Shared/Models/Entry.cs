@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Treehouse.FitnessFrog.Shared.Models
@@ -13,8 +15,11 @@ namespace Treehouse.FitnessFrog.Shared.Models
         /// </summary>
         public enum IntensityLevel
         {
+            [Description("LOW_")]
             Low = 1,
+            [Description("MEDIUM_")]
             Medium = 2,
+            [Description("HIGH_")]
             High = 3
         }
 
@@ -37,7 +42,7 @@ namespace Treehouse.FitnessFrog.Shared.Models
         /// <param name="intensity">The intensity for the entry.</param>
         /// <param name="exclude">Whether or not the entry should be excluded when calculating the total fitness activity.</param>
         /// <param name="notes">The notes for the entry.</param>
-        public Entry(User user, int year, int month, int day, Activity activity, decimal duration, 
+        public Entry(User user, int year, int month, int day, Activity activity, decimal duration,
             IntensityLevel intensity = IntensityLevel.Medium, bool exclude = false, string notes = null)
         {
             UserId = user.Id;
@@ -108,4 +113,31 @@ namespace Treehouse.FitnessFrog.Shared.Models
         /// </summary>
         public string IntensityName => Intensity.ToString();
     }
+
+    public static class IntensityLevelExtensions
+    {
+        static Dictionary<Entry.IntensityLevel, string> _displayNames = new Dictionary<Entry.IntensityLevel, string>()
+        {
+            { Entry.IntensityLevel.Low, "_low" },
+            { Entry.IntensityLevel.Medium, "_medium" },
+            { Entry.IntensityLevel.High, "_high" }
+        };
+
+        public static string GetDisplayName(this Entry.IntensityLevel level)
+        {
+            return _displayNames[level];
+            //var type = level.GetType();
+            //var memInfo = type.GetMember(level.ToString());
+            //var attributes = memInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
+            //foreach (var attribute in attributes)
+            //{
+            //    if (attribute.GetType() == typeof(DescriptionAttribute))
+            //        return (attribute as DescriptionAttribute).Description;
+            //}
+            
+            //return Enum.GetName(typeof(Entry.IntensityLevel), level).ToUpper();
+        }
+
+    }
+
 }

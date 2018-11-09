@@ -1,4 +1,5 @@
 ﻿@model Treehouse.FitnessFrog.ViewModels.EntriesIndexViewModel
+@using Treehouse.FitnessFrog.Shared.Models
 
 @{
     ViewBag.Title = "Entries";
@@ -45,7 +46,7 @@
                 </td>
                 <td>@entry.Activity.Name</td>
                 <td>@entry.Duration.ToString("0.0#")</td>
-                <td class="hidden-xs">@entry.Intensity</td>
+                <td class="hidden-xs">@entry.Intensity.GetDisplayName()</td>
                 <td>
                     <div class="pull-right">
                         <a href="@Url.Action("Edit", new { id = entry.Id })" class="btn btn-warning btn-sm margin-right">

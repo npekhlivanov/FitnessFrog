@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using System;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 
 namespace SignalRWithAuthentication.Hubs
@@ -45,6 +46,32 @@ namespace SignalRWithAuthentication.Hubs
         public async Task SendMessage(string message)
         {
             await Clients.All.SendAsync("newMessage", Context.User.Identity.Name, message);
+        }
+
+
+        // see http://coderethinked.com/streaming-in-asp-net-core-signalr/
+        public ChannelReader<int> DelayCounter(int delay)
+        {
+            var channel = Channel.CreateUnbounded<int>();
+
+            _ = WriteItems(channel.Writer, 20, delay);
+
+            return channel.Reader;
+        }
+
+        private async Task WriteItems(ChannelWriter<int> writer, int count, int delay)
+        {
+            for (var i = 0; i < count; i++)
+            {
+                //For every 5 items streamed, add twice the delay
+                if (i % 5 == 0)
+                    delay = delay * 2;
+
+                await writer.WriteAsync(i);
+                await Task.Delay(delay);
+            }
+
+            writer.TryComplete();
         }
     }
 }

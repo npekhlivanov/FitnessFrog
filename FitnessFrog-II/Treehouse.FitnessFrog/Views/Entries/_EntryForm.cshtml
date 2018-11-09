@@ -26,15 +26,15 @@
                 <div>
                     <label class="radio-inline">
                         @Html.RadioButtonFor(m => m.Entry.Intensity,
-                            Entry.IntensityLevel.Low) @Entry.IntensityLevel.Low
+                            Entry.IntensityLevel.Low) @Entry.IntensityLevel.Low.GetDisplayName()
                         </label>
                         <label class="radio-inline">
                             @Html.RadioButtonFor(m => m.Entry.Intensity,
-                                Entry.IntensityLevel.Medium) @Entry.IntensityLevel.Medium
+                                Entry.IntensityLevel.Medium) @Entry.IntensityLevel.Medium.GetDisplayName()
                             </label>
                             <label class="radio-inline">
                                 @Html.RadioButtonFor(m => m.Entry.Intensity,
-                                    Entry.IntensityLevel.High) @Entry.IntensityLevel.High
+                                    Entry.IntensityLevel.High) @Entry.IntensityLevel.High.GetDisplayName()
                                 </label>
                             </div>
                         </div>
