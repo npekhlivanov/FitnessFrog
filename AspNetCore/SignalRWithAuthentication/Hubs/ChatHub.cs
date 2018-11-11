@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
+using SignalRWithAuthentication.Services;
 using System;
 using System.Threading.Channels;
 using System.Threading.Tasks;

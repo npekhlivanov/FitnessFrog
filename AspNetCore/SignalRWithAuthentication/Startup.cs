@@ -11,9 +11,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using SignalRWithAuthentication.Data;
 using SignalRWithAuthentication.Hubs;
+using SignalRWithAuthentication.Services;
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Net.WebSockets;
 
 namespace SignalRWithAuthentication
 {
@@ -141,7 +143,11 @@ namespace SignalRWithAuthentication
             // specify the connection string in an application setting named Azure:SignalR:ConnectionString
             // The ASP.NET Core JWT authorization added earlier must be disabled in order for SignalR Service to integrate with this application (cookie authorization is fine)
 
-            services.AddSingleton(typeof(PresenceTracker));
+            //services.AddWebSocketConnections();
+
+            services.AddSingleton<PresenceTracker>();
+
+            services.AddSingleton<MessageRelay>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -171,6 +177,9 @@ namespace SignalRWithAuthentication
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
+            app.UseWebSockets();
+            //app.MapWebSocketConnections("/socket", webSocketConnectionsOptions);
+
             // Use the CORS policy defined previusly
             //app.UseCors("CorsPolicy");
 
@@ -186,7 +195,7 @@ namespace SignalRWithAuthentication
             //});
 
             // The code below activates the relay service
-            //app.ApplicationServices.GetService<MessageRelay>();
+            app.ApplicationServices.GetService<MessageRelay>();
         }
     }
 }

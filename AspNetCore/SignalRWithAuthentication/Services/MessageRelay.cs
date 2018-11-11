@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using SignalRWithAuthentication.Hubs;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SignalRWithAuthentication
+namespace SignalRWithAuthentication.Services
 {
     public class MessageRelay
     {
@@ -15,7 +13,7 @@ namespace SignalRWithAuthentication
             Task.Factory.StartNew(() => {
                 while (true)
                 {
-                    hubContext.Clients.All.SendAsync("sync", DateTime.Now.Ticks);
+                    hubContext.Clients.All.SendAsync("sync", DateTime.Now.ToString("dd.MM.yyyy HH.mm.ss.fff"));
                     Thread.Sleep(1000);
                 }
             });
