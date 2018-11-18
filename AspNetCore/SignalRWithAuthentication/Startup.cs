@@ -133,7 +133,7 @@ namespace SignalRWithAuthentication
             //});
 
             // Add SignalR services to the service collection
-            services.AddSignalR();
+            //services.AddSignalR();
             // To add SignalR client library, right-click the project, and select Add > Client-Side Library, then select unpkg for Provider .
             // For Library, enter @aspnet/signalr@1, and select the latest version that isn't preview
             // Select Choose specific files, and select signalr.js and signalr.min.js, set Target Location to wwwroot/lib/signalr/
@@ -143,7 +143,8 @@ namespace SignalRWithAuthentication
             // specify the connection string in an application setting named Azure:SignalR:ConnectionString
             // The ASP.NET Core JWT authorization added earlier must be disabled in order for SignalR Service to integrate with this application (cookie authorization is fine)
 
-            //services.AddWebSocketConnections();
+            // Add WebSocket ConnectionManager service
+            services.AddWebSocketConnections();
 
             services.AddSingleton<PresenceTracker>();
 
@@ -164,7 +165,7 @@ namespace SignalRWithAuthentication
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
@@ -177,17 +178,18 @@ namespace SignalRWithAuthentication
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
+            // Enable WebSockets and add WebSocketsMiddleware
             app.UseWebSockets();
-            //app.MapWebSocketConnections("/socket", webSocketConnectionsOptions);
+            app.MapWebSocketConnections("/socket");
 
             // Use the CORS policy defined previusly
             //app.UseCors("CorsPolicy");
 
             // Add SignalR to the request execution pipeline passing a callback to configure the hub routes
-            app.UseSignalR(builder =>
-            {
-                builder.MapHub<ChatHub>("/chat");
-            });
+            //app.UseSignalR(builder =>
+            //{
+            //    builder.MapHub<ChatHub>("/chat");
+            //});
             // If using Azure SignalR, use the code below instead of the one above
             //app.UseAzureSignalR(builder =>
             //{
@@ -195,7 +197,7 @@ namespace SignalRWithAuthentication
             //});
 
             // The code below activates the relay service
-            app.ApplicationServices.GetService<MessageRelay>();
+            //app.ApplicationServices.GetService<MessageRelay>();
         }
     }
 }
