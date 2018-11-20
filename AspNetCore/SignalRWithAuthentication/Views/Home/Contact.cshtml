@@ -6,36 +6,42 @@
 
 <label>Log:</label>
 <div id="console"></div>
+@{
+    string proto = this.Context.Request.IsHttps ? "wss" : "ws";
+    string host = this.Context.Request.Host.Value;
+    string path = $"{proto}://{host}/socket";
+}
+
 <script>
-        var consoleOutput = document.getElementById('console');
+    var consoleOutput = document.getElementById('console');
 
-        var webSocketOnOpen = function () {
-            writeToConsole('[-- CONNECTION ESTABLISHED --]');
-        };
+    var webSocketOnOpen = function () {
+        writeToConsole('[-- CONNECTION ESTABLISHED --]');
+    };
 
-        var webSocketOnClose = function () {
-            writeToConsole('[-- CONNECTION CLOSED --]');
-        };
+    var webSocketOnClose = function () {
+        writeToConsole('[-- CONNECTION CLOSED --]');
+    };
 
-        var webSocketOnError = function () {
-            writeToConsole('[-- ERROR OCCURRED --]');
-        };
+    var webSocketOnError = function () {
+        writeToConsole('[-- ERROR OCCURRED --]');
+    };
 
-        var webSocketOnMessage = function (message) {
-            writeToConsole('[-- RECEIVED --]: ' + message.data);
-        };
+    var webSocketOnMessage = function (message) {
+        writeToConsole('[-- RECEIVED --]: ' + message.data);
+    };
 
-        var writeToConsole = function (text) {
-            var paragraph = document.createElement('p');
-            paragraph.style.wordWrap = 'break-word';
-            paragraph.appendChild(document.createTextNode(text));
-            consoleOutput.appendChild(paragraph);
-        };
+    var writeToConsole = function (text) {
+        var paragraph = document.createElement('p');
+        paragraph.style.wordWrap = 'break-word';
+        paragraph.appendChild(document.createTextNode(text));
+        consoleOutput.appendChild(paragraph);
+    };
 
-        webSocket = new WebSocket("ws://localhost:11245/socket");
-        webSocket.onopen = webSocketOnOpen;
-        webSocket.onclose = webSocketOnClose;
-        webSocket.onerror = webSocketOnError;
-        webSocket.onmessage = webSocketOnMessage;
+    webSocket = new WebSocket("@path");
+    webSocket.onopen = webSocketOnOpen;
+    webSocket.onclose = webSocketOnClose;
+    webSocket.onerror = webSocketOnError;
+    webSocket.onmessage = webSocketOnMessage;
 </script>
 

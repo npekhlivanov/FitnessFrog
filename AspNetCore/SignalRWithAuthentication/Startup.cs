@@ -133,7 +133,7 @@ namespace SignalRWithAuthentication
             //});
 
             // Add SignalR services to the service collection
-            //services.AddSignalR();
+            services.AddSignalR();
             // To add SignalR client library, right-click the project, and select Add > Client-Side Library, then select unpkg for Provider .
             // For Library, enter @aspnet/signalr@1, and select the latest version that isn't preview
             // Select Choose specific files, and select signalr.js and signalr.min.js, set Target Location to wwwroot/lib/signalr/
@@ -165,7 +165,7 @@ namespace SignalRWithAuthentication
                 app.UseHsts();
             }
 
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
@@ -180,16 +180,16 @@ namespace SignalRWithAuthentication
 
             // Enable WebSockets and add WebSocketsMiddleware
             app.UseWebSockets();
-            app.MapWebSocketConnections("/socket");
+            app.MapWebSocketConnections("/socket"); // maybe pass host to verify origin: IWebHostBuilder.GetSetting(WebHostDefaults.ServerUrlsKey)
 
             // Use the CORS policy defined previusly
             //app.UseCors("CorsPolicy");
 
             // Add SignalR to the request execution pipeline passing a callback to configure the hub routes
-            //app.UseSignalR(builder =>
-            //{
-            //    builder.MapHub<ChatHub>("/chat");
-            //});
+            app.UseSignalR(builder =>
+            {
+                builder.MapHub<ChatHub>("/chat");
+            });
             // If using Azure SignalR, use the code below instead of the one above
             //app.UseAzureSignalR(builder =>
             //{

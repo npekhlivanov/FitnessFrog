@@ -33,16 +33,16 @@ namespace SignalRWithAuthentication.Services
             var webSocketConnection = new WebSocketConnection(webSocket);
             _connectionsService.AddConnection(webSocketConnection);
 
-            //await webSocketConnection.ReceiveMessagesUntilCloseAsync();
-            await Receive(webSocket, /*async*/ (result, serializedMessage) =>
-            {
-                if (result.MessageType == WebSocketMessageType.Text)
-                {
-                    //Message message = JsonConvert.DeserializeObject<Message>(serializedMessage, _jsonSerializerSettings);
-                    //await _webSocketHandler.ReceiveAsync(socket, result, message).ConfigureAwait(false);
-                    return;
-                }
-            });
+            await webSocketConnection.ReceiveMessagesUntilCloseAsync();
+            //await Receive(webSocket, /*async*/ (result, serializedMessage) =>
+            //{
+            //    if (result.MessageType == WebSocketMessageType.Text)
+            //    {
+            //        //Message message = JsonConvert.DeserializeObject<Message>(serializedMessage, _jsonSerializerSettings);
+            //        //await _webSocketHandler.ReceiveAsync(socket, result, message).ConfigureAwait(false);
+            //        return;
+            //    }
+            //});
 
             if (webSocketConnection.CloseStatus.HasValue)
             {

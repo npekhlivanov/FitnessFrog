@@ -71,7 +71,7 @@ namespace SignalRWithAuthentication.Infrastructure
             try
             {
                 var receivePayloadBuffer = new byte[_receivePayloadBufferSize];
-                var webSocketReceiveResult = await _webSocket.ReceiveAsync(new ArraySegment<byte>(receivePayloadBuffer), CancellationToken.None);
+                var webSocketReceiveResult = await _webSocket.ReceiveAsync(new ArraySegment<byte>(receivePayloadBuffer), CancellationToken.None).ConfigureAwait(false);
 
                 // receiving loop
                 while (webSocketReceiveResult.MessageType != WebSocketMessageType.Close)

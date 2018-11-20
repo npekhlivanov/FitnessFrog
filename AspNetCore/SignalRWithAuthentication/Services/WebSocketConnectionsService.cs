@@ -14,11 +14,13 @@ namespace SignalRWithAuthentication.Services
         public void AddConnection(WebSocketConnection webSocketConnection)
         {
             _connections.TryAdd(webSocketConnection.Id, webSocketConnection);
+            SendToAllAsync($"Connection added, id={webSocketConnection.Id}", CancellationToken.None);
         }
 
         public void RemoveConnection(Guid id)
         {
-            _connections.TryRemove(id, out var connection);
+            _connections.TryRemove(id, out WebSocketConnection connection);
+            SendToAllAsync($"Connection removed, id={id}", CancellationToken.None);
         }
 
         public Task SendToAllAsync(string message, CancellationToken cancellationToken)
