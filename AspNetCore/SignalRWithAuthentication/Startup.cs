@@ -113,6 +113,9 @@ namespace SignalRWithAuthentication
                             return Task.CompletedTask;
                         }
                     };
+
+                    //options.Authority = Configuration["authority"];
+                    //options.Audience = Configuration["clientid"];
                 });
 
             services.AddAuthorization(options =>
@@ -179,7 +182,12 @@ namespace SignalRWithAuthentication
             });
 
             // Enable WebSockets and add WebSocketsMiddleware
-            app.UseWebSockets();
+            var webSocketOptions = new WebSocketOptions()
+            {
+                KeepAliveInterval = TimeSpan.FromSeconds(120), // How frequently to send "ping" frames to the client to ensure proxies keep the connection open. The default is two minutes
+                ReceiveBufferSize = 4 * 1024 // The size of the buffer used to receive data; change this for performance tuning based on the size of the data. The default is 4 KB.
+            };
+            app.UseWebSockets(webSocketOptions);
             app.MapWebSocketConnections("/socket"); // maybe pass host to verify origin: IWebHostBuilder.GetSetting(WebHostDefaults.ServerUrlsKey)
 
             // Use the CORS policy defined previusly

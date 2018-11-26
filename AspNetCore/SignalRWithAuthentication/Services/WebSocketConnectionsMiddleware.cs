@@ -24,7 +24,7 @@ namespace SignalRWithAuthentication.Services
         {
             if (!context.WebSockets.IsWebSocketRequest)
             {
-                await _next.Invoke(context);
+                await _next.Invoke(context); // can we have a request to the same path and not for a WS connection? Consider using the code on the next line
                 //context.Response.StatusCode = StatusCodes.Status400BadRequest;
                 return;
             }
@@ -53,9 +53,9 @@ namespace SignalRWithAuthentication.Services
             _connectionsService.RemoveConnection(webSocketConnection.Id);
         }
 
-        private async Task Receive(WebSocket socket, Action<WebSocketReceiveResult, string> handleMessage)
+        private async Task Receive(WebSocket webSocket, Action<WebSocketReceiveResult, string> handleMessage)
         {
-            while (socket.State == WebSocketState.Open)
+            while (webSocket.State == WebSocketState.Open)
             {
                 try
                 {
@@ -67,7 +67,7 @@ namespace SignalRWithAuthentication.Services
                     {
                         do
                         {
-                            result = await socket.ReceiveAsync(buffer, CancellationToken.None).ConfigureAwait(false);
+                            result = await webSocket.ReceiveAsync(buffer, CancellationToken.None).ConfigureAwait(false);
                             ms.Write(buffer.Array, buffer.Offset, result.Count);
                         }
                         while (!result.EndOfMessage);
@@ -89,7 +89,7 @@ namespace SignalRWithAuthentication.Services
                 {
                     if (e.WebSocketErrorCode == WebSocketError.ConnectionClosedPrematurely)
                     {
-                        socket.Abort();
+                        webSocket.Abort();
                     }
                 }
             }
